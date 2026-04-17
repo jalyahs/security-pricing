@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NTG — Security Pricing Model</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f11;
+    --surface: #18181c;
+    --surface2: #212126;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f0ee;
+    --muted: #888880;
+    --accent: #c8f55a;
+    --accent-dim: rgba(200,245,90,0.12);
+    --danger: #ff6b6b;
+    --danger-dim: rgba(255,107,107,0.12);
+    --warn: #f5a623;
+    --warn-dim: rgba(245,166,35,0.12);
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .header-org {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .header-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .header-dot {
+    color: var(--border2);
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+  }
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .page-sub {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Cost cards */
+  .cost-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+  }
+
+  .cost-card {
+    background: var(--surface);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .cost-card.total {
+    background: var(--surface2);
+  }
+
+  .cost-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .cost-value {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .cost-card.total .cost-value {
+    color: var(--accent);
+  }
+
+  .cost-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  /* Sliders */
+  .controls {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .controls-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .slider-row:last-child { margin-bottom: 0; }
+
+  .slider-name {
+    font-size: 13px;
+    color: var(--muted);
+    min-width: 140px;
+  }
+
+  input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2px;
+    background: var(--border2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); cursor: pointer; border: none;
+  }
+
+  .slider-val {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    min-width: 60px;
+    text-align: right;
+  }
+
+  /* Summary metrics */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .metric.positive { border-color: rgba(200,245,90,0.3); }
+  .metric.negative { border-color: rgba(255,107,107,0.3); }
+  .metric.warn { border-color: rgba(245,166,35,0.3); }
+
+  .metric-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-value {
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .metric.positive .metric-value { color: var(--accent); }
+  .metric.negative .metric-value { color: var(--danger); }
+  .metric.warn .metric-value { color: var(--warn); }
+
+  .metric-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Table */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .table-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .table-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+
+  tbody td {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    padding: 0.85rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  tbody tr.active { background: rgba(200,245,90,0.05); }
+  tbody tr.active td:first-child { color: var(--accent); }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .badge-green { background: var(--accent-dim); color: var(--accent); }
+  .badge-warn { background: var(--warn-dim); color: var(--warn); }
+  .badge-red { background: var(--danger-dim); color: var(--danger); }
+
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .footer-text {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 600px) {
+    .main { padding: 1.5rem 1rem; }
+    .header { padding: 1rem; }
+    .slider-name { min-width: 100px; font-size: 12px; }
+    thead th, tbody td { padding: 0.75rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-org">NTG</span>
+  <span class="header-dot">·</span>
+  <span class="header-title">Security Pricing Model</span>
+</div>
+
+<div class="main">
+
+  <h1 class="page-title">Shared cost calculator</h1>
+  <p class="page-sub">INTERNAL USE ONLY — NOT FOR DISTRIBUTION</p>
+
+  <div class="cost-row">
+    <div class="cost-card">
+      <div class="cost-label">Vulnerability Scanner</div>
+      <div class="cost-value">$350</div>
+      <div class="cost-note">per month</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">vPenTest</div>
+      <div class="cost-value">$495</div>
+      <div class="cost-note">per month</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Network Detective Pro</div>
+      <div class="cost-value">$350</div>
+      <div class="cost-note">per month</div>
+    </div>
+    <div class="cost-card total">
+      <div class="cost-label">Total floor</div>
+      <div class="cost-value">$1,195</div>
+      <div class="cost-note">must cover this</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="controls-title">Adjust model</div>
+    <div class="slider-row">
+      <span class="slider-name">Clients on package</span>
+      <input type="range" min="1" max="30" value="10" step="1" id="clients" oninput="update()">
+      <span class="slider-val" id="clients-out">10</span>
+    </div>
+    <div class="slider-row">
+      <span class="slider-name">Price per client/mo</span>
+      <input type="range" min="25" max="300" value="75" step="5" id="price" oninput="update()">
+      <span class="slider-val" id="price-out">$75</span>
+    </div>
+  </div>
+
+  <div class="metrics" id="metrics"></div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <div class="table-title">Breakeven &amp; margin targets by client count</div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Clients</th>
+          <th>Breakeven</th>
+          <th>25% margin</th>
+          <th>40% margin</th>
+          <th>50% margin</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <span class="footer-text">NTG Internal · Security Offering Pricing</span>
+    <span class="footer-text" id="footer-date"></span>
+  </div>
+
+</div>
+
+<script>
+const FLOOR = 1195;
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function update() {
+  const clients = parseInt(document.getElementById('clients').value);
+  const price = parseInt(document.getElementById('price').value);
+  document.getElementById('clients-out').textContent = clients;
+  document.getElementById('price-out').textContent = '$' + price;
+
+  const revenue = clients * price;
+  const profit = revenue - FLOOR;
+  const margin = revenue > 0 ? (profit / revenue) * 100 : 0;
+  const breakeven = FLOOR / clients;
+
+  const profitClass = profit >= 0 ? 'positive' : 'negative';
+  const marginClass = margin >= 25 ? 'positive' : margin >= 0 ? 'warn' : 'negative';
+
+  document.getElementById('metrics').innerHTML = `
+    <div class="metric">
+      <div class="metric-label">Monthly revenue</div>
+      <div class="metric-value">${fmt(revenue)}</div>
+      <div class="metric-sub">${clients} clients × $${price}</div>
+    </div>
+    <div class="metric ${profitClass}">
+      <div class="metric-label">Monthly profit</div>
+      <div class="metric-value">${profit >= 0 ? '+' : ''}${fmt(profit)}</div>
+      <div class="metric-sub">after $1,195 floor</div>
+    </div>
+    <div class="metric ${marginClass}">
+      <div class="metric-label">Gross margin</div>
+      <div class="metric-value">${Math.round(margin)}%</div>
+      <div class="metric-sub">25%+ is healthy</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Breakeven price</div>
+      <div class="metric-value">${fmt(breakeven)}</div>
+      <div class="metric-sub">per client at ${clients} clients</div>
+    </div>
+  `;
+
+  const rows = [2, 5, 8, 10, 15, 20];
+  document.getElementById('table-body').innerHTML = rows.map(n => {
+    const be = FLOOR / n;
+    const m25 = be / 0.75;
+    const m40 = be / 0.60;
+    const m50 = be / 0.50;
+    const active = n === clients;
+
+    const badge = (val, price) => {
+      const m = ((val - FLOOR / n) / val) * 100;
+      if (m >= 40) return '<span class="badge badge-green">strong</span>';
+      if (m >= 25) return '<span class="badge badge-warn">ok</span>';
+      return '';
+    };
+
+    return `<tr class="${active ? 'active' : ''}">
+      <td>${n}${active ? ' ←' : ''}</td>
+      <td>${fmt(be)}</td>
+      <td>${fmt(m25)}</td>
+      <td>${fmt(m40)}</td>
+      <td>${fmt(m50)}</td>
+    </tr>`;
+  }).join('');
+}
+
+document.getElementById('footer-date').textContent = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+update();
+</script>
+</body>
+</html>
