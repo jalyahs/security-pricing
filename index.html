@@ -295,6 +295,7 @@
   <button class="nav-tab" onclick="showPage('vuln', this)">VULN SCANNER</button>
   <button class="nav-tab" onclick="showPage('pentest', this)">VPENTEST</button>
   <button class="nav-tab" onclick="showPage('netdet', this)">NETWORK DETECTIVE</button>
+  <button class="nav-tab" onclick="showPage('prospect', this)">PROSPECT PRICING</button>
 </nav>
 
 <div class="main">
@@ -337,7 +338,7 @@
       </div>
       <div class="slider-row">
         <span class="slider-name">Price per client/mo</span>
-        <input type="range" min="25" max="300" value="75" step="5" id="price" oninput="updateCalc()">
+        <input type="range" min="175" max="1000" value="175" step="5" id="price" oninput="updateCalc()">
         <span class="slider-val" id="price-out">$75</span>
       </div>
     </div>
@@ -503,6 +504,10 @@
           <div class="point-head">Cyber insurance &amp; compliance</div>
           <div class="point-body">Many insurers now require evidence of penetration testing. This gives you that documentation — and often justifies a lower premium.</div>
         </div>
+        <div class="point">
+          <div class="point-head">Per-user math works in your favor</div>
+          <div class="point-body">Market rate for automated pen testing runs ~$10/user/month. A 30-user client at market rate is $300/month — and a 50-user client is $500/month. Use that math when a prospect pushes back on price: you're at or below what they'd pay going direct.</div>
+        </div>
       </div>
 
       <div class="pitch-card">
@@ -606,6 +611,140 @@
           <div class="obj-q">"What do we do with the report?"</div>
           <div class="obj-a">We walk through it with you. Every finding is prioritized — critical, high, medium. We build a remediation roadmap together. It becomes the foundation for your security roadmap going forward.</div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PROSPECT PRICING ══════════════ -->
+  <div class="page" id="page-prospect">
+    <h1 class="page-title">Prospect pricing</h1>
+    <p class="page-sub">RECOMMENDED SELL PRICES FOR NON-CLIENTS — BASED ON MSP MARKET RATES</p>
+
+    <div class="section-label">How to read this</div>
+    <div class="pitch-card" style="margin-bottom:2rem;">
+      <div class="point-body" style="font-size:14px;line-height:1.7;">
+        These are standalone prices for prospects who are <em>not</em> existing NTG managed clients. Pricing is based on current MSP market rates for each product category. SMB rates apply to general small business clients. Regulated rates apply to law firms, financial services, healthcare, and any client with a compliance framework. Bundle pricing offers a modest discount to close faster and lock in recurring revenue.
+      </div>
+    </div>
+
+    <div class="section-label">Individual product pricing</div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-bottom:2rem;">
+
+      <div class="pitch-card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+          <div class="product-icon icon-green" style="width:36px;height:36px;font-size:16px;">🔍</div>
+          <div>
+            <div style="font-size:14px;font-weight:500;">Vulnerability Scanner</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);">Your cost: $350/mo shared</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;">
+          <div style="background:var(--surface2);border-radius:8px;padding:0.9rem 1rem;">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.06em;margin-bottom:4px;">SMB</div>
+            <div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--accent);">$200</div>
+            <div style="font-size:11px;color:var(--muted);">– $350 /mo</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:8px;padding:0.9rem 1rem;">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--blue);letter-spacing:0.06em;margin-bottom:4px;">REGULATED</div>
+            <div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--blue);">$400</div>
+            <div style="font-size:11px;color:var(--muted);">– $700 /mo</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">
+          At $200/mo you're at market floor and covering cost with 2 clients. Regulated clients justify the higher rate due to compliance documentation value.
+        </div>
+      </div>
+
+      <div class="pitch-card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+          <div class="product-icon icon-blue" style="width:36px;height:36px;font-size:16px;">⚡</div>
+          <div>
+            <div style="font-size:14px;font-weight:500;">vPenTest</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);">Your cost: $495/mo shared</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;">
+          <div style="background:var(--surface2);border-radius:8px;padding:0.9rem 1rem;">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.06em;margin-bottom:4px;">SMB</div>
+            <div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--accent);">$300</div>
+            <div style="font-size:11px;color:var(--muted);">– $500 /mo</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:8px;padding:0.9rem 1rem;">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--blue);letter-spacing:0.06em;margin-bottom:4px;">REGULATED</div>
+            <div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--blue);">$600</div>
+            <div style="font-size:11px;color:var(--muted);">– $1,000 /mo</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">
+          Traditional pen tests cost $5K–$30K per engagement. Your recurring model is a significant value story — lean on that comparison hard.
+        </div>
+      </div>
+
+      <div class="pitch-card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+          <div class="product-icon icon-purple" style="width:36px;height:36px;font-size:16px;">🗺️</div>
+          <div>
+            <div style="font-size:14px;font-weight:500;">Network Detective Pro</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);">Your cost: $350/mo shared</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;">
+          <div style="background:var(--surface2);border-radius:8px;padding:0.9rem 1rem;">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.06em;margin-bottom:4px;">ONE-TIME</div>
+            <div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--accent);">$750</div>
+            <div style="font-size:11px;color:var(--muted);">– $2,500</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:8px;padding:0.9rem 1rem;">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--blue);letter-spacing:0.06em;margin-bottom:4px;">RECURRING</div>
+            <div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--blue);">$200</div>
+            <div style="font-size:11px;color:var(--muted);">– $400 /mo</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">
+          Strong as a paid assessment to open the door with a prospect. One-time assessment naturally leads to a managed services conversation.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-label">Bundle pricing — all three products</div>
+    <div class="pitch-card" style="margin-bottom:2rem;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.25rem;">
+        <div style="background:var(--surface2);border-radius:8px;padding:1rem 1.25rem;">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.06em;margin-bottom:6px;">SMB BUNDLE</div>
+          <div style="font-family:var(--mono);font-size:24px;font-weight:500;color:var(--accent);">$599<span style="font-size:14px;font-weight:400;color:var(--muted)">/mo</span></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">All three tools, one line item</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:1rem 1.25rem;">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--blue);letter-spacing:0.06em;margin-bottom:6px;">REGULATED BUNDLE</div>
+          <div style="font-family:var(--mono);font-size:24px;font-weight:500;color:var(--blue);">$999<span style="font-size:14px;font-weight:400;color:var(--muted)">/mo</span></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">Law firm / financial / healthcare</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:1rem 1.25rem;">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--purple);letter-spacing:0.06em;margin-bottom:6px;">YOUR FLOOR (ALL 3)</div>
+          <div style="font-family:var(--mono);font-size:24px;font-weight:500;color:var(--purple);">$1,195<span style="font-size:14px;font-weight:400;color:var(--muted)">/mo</span></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">Break even at 1 prospect client</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.7;border-top:1px solid var(--border);padding-top:1rem;">
+        A single SMB bundle prospect at $599/mo covers 50% of your floor. Two covers it entirely — everything after that is margin. One regulated client at $999/mo nearly covers the floor on its own.
+      </div>
+    </div>
+
+    <div class="section-label">Positioning notes for the sales conversation</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+      <div class="pitch-card">
+        <div class="point-head" style="margin-bottom:0.5rem;">Lead with the bundle</div>
+        <div class="point-body">Three tools, one monthly number, one conversation. It's harder to say no to a package than to approve three separate line items. Start there and discount to individual only if needed.</div>
+      </div>
+      <div class="pitch-card">
+        <div class="point-head" style="margin-bottom:0.5rem;">Use Network Detective as the door opener</div>
+        <div class="point-body">A one-time paid assessment ($750–$1,500) is low friction for a prospect. Run it, show them what you found, and the managed security conversation writes itself.</div>
+      </div>
+      <div class="pitch-card">
+        <div class="point-head" style="margin-bottom:0.5rem;">Anchor against traditional pen test cost</div>
+        <div class="point-body">Tell prospects that a single traditional pen test engagement runs $5,000–$30,000. Your recurring vPenTest model delivers that continuously for a fraction of the cost. That framing closes deals.</div>
       </div>
     </div>
   </div>
