@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NTG — Security Pricing Model</title>
+<title>NTG — Security Pricing</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -17,11 +17,16 @@
     --text: #f0f0ee;
     --muted: #888880;
     --accent: #c8f55a;
-    --accent-dim: rgba(200,245,90,0.12);
+    --accent-dim: rgba(200,245,90,0.10);
+    --accent-border: rgba(200,245,90,0.25);
     --danger: #ff6b6b;
-    --danger-dim: rgba(255,107,107,0.12);
+    --danger-dim: rgba(255,107,107,0.10);
     --warn: #f5a623;
-    --warn-dim: rgba(245,166,35,0.12);
+    --warn-dim: rgba(245,166,35,0.10);
+    --blue: #7eb8f7;
+    --blue-dim: rgba(126,184,247,0.10);
+    --purple: #b39dff;
+    --purple-dim: rgba(179,157,255,0.10);
     --mono: 'DM Mono', monospace;
     --sans: 'DM Sans', sans-serif;
   }
@@ -32,308 +37,247 @@
     font-family: var(--sans);
     font-weight: 300;
     min-height: 100vh;
-    padding: 0;
   }
 
+  /* ── Header ── */
   .header {
     border-bottom: 1px solid var(--border);
-    padding: 1.5rem 2rem;
+    padding: 1.25rem 2rem;
     display: flex;
     align-items: baseline;
-    gap: 1rem;
+    gap: 0.75rem;
+  }
+  .header-org { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+  .header-dot { color: var(--border2); }
+  .header-title { font-size: 14px; font-weight: 500; }
+  .header-badge {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--warn);
+    background: var(--warn-dim);
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
   }
 
-  .header-org {
+  /* ── Nav tabs ── */
+  .nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
     font-family: var(--mono);
     font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .header-title {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .header-dot {
-    color: var(--border2);
-    font-size: 18px;
-    line-height: 1;
-  }
-
-  .main {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 2.5rem 2rem;
-  }
-
-  .page-title {
-    font-size: 28px;
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: 0.25rem;
-  }
-
-  .page-sub {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
     letter-spacing: 0.06em;
-    margin-bottom: 2.5rem;
+    color: var(--muted);
+    padding: 0.85rem 1.25rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s;
+    user-select: none;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
   }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-  /* Cost cards */
+  /* ── Main content ── */
+  .main { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-title { font-size: 26px; font-weight: 300; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+  .page-sub { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2rem; }
+
+  /* ── Section label ── */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 2rem 0 0.75rem;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  /* ── Cost cards ── */
   .cost-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
     border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 2.5rem;
-  }
-
-  .cost-card {
-    background: var(--surface);
-    padding: 1.25rem 1.5rem;
-  }
-
-  .cost-card.total {
-    background: var(--surface2);
-  }
-
-  .cost-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-
-  .cost-value {
-    font-family: var(--mono);
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .cost-card.total .cost-value {
-    color: var(--accent);
-  }
-
-  .cost-note {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 3px;
-  }
-
-  /* Sliders */
-  .controls {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.5rem;
     margin-bottom: 2rem;
   }
+  .cost-card { background: var(--surface); padding: 1.25rem 1.5rem; }
+  .cost-card.total { background: var(--surface2); }
+  .cost-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .cost-value { font-family: var(--mono); font-size: 20px; font-weight: 500; }
+  .cost-card.total .cost-value { color: var(--accent); }
+  .cost-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-  .controls-title {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 1.25rem;
-  }
-
-  .slider-row {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-  }
-
+  /* ── Sliders ── */
+  .controls { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .slider-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
   .slider-row:last-child { margin-bottom: 0; }
-
-  .slider-name {
-    font-size: 13px;
-    color: var(--muted);
-    min-width: 140px;
-  }
-
+  .slider-name { font-size: 13px; color: var(--muted); min-width: 140px; }
   input[type=range] {
-    flex: 1;
-    -webkit-appearance: none;
-    appearance: none;
-    height: 2px;
-    background: var(--border2);
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
+    flex: 1; -webkit-appearance: none; appearance: none;
+    height: 2px; background: var(--border2); border-radius: 2px; outline: none; cursor: pointer;
   }
-
   input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--accent);
-    cursor: pointer;
-    transition: transform 0.15s;
+    -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); cursor: pointer; transition: transform 0.15s;
   }
-
   input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
-  input[type=range]::-moz-range-thumb {
-    width: 16px; height: 16px; border-radius: 50%;
-    background: var(--accent); cursor: pointer; border: none;
-  }
+  input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); cursor: pointer; border: none; }
+  .slider-val { font-family: var(--mono); font-size: 14px; font-weight: 500; min-width: 60px; text-align: right; }
 
-  .slider-val {
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-    min-width: 60px;
-    text-align: right;
-  }
-
-  /* Summary metrics */
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin-bottom: 2rem;
-  }
-
-  .metric {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.25rem 1.5rem;
-    transition: border-color 0.2s;
-  }
-
-  .metric.positive { border-color: rgba(200,245,90,0.3); }
+  /* ── Metrics ── */
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .metric { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; transition: border-color 0.2s; }
+  .metric.positive { border-color: var(--accent-border); }
   .metric.negative { border-color: rgba(255,107,107,0.3); }
   .metric.warn { border-color: rgba(245,166,35,0.3); }
-
-  .metric-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-
-  .metric-value {
-    font-family: var(--mono);
-    font-size: 24px;
-    font-weight: 500;
-    color: var(--text);
-  }
-
+  .metric-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .metric-value { font-family: var(--mono); font-size: 22px; font-weight: 500; }
   .metric.positive .metric-value { color: var(--accent); }
   .metric.negative .metric-value { color: var(--danger); }
   .metric.warn .metric-value { color: var(--warn); }
+  .metric-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
-  .metric-sub {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
+  /* ── Table ── */
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .table-header { padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border); }
+  .table-title { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    font-family: var(--mono); font-size: 10px; color: var(--muted);
+    letter-spacing: 0.08em; text-transform: uppercase; text-align: left;
+    padding: 0.7rem 1.5rem; border-bottom: 1px solid var(--border); font-weight: 400;
+  }
+  tbody td { font-family: var(--mono); font-size: 13px; padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr.active-row { background: rgba(200,245,90,0.04); }
+  tbody tr.active-row td:first-child { color: var(--accent); }
+
+  /* ── Sales pitch pages ── */
+  .product-hero {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .product-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0; margin-top: 2px;
+  }
+  .icon-green { background: var(--accent-dim); }
+  .icon-blue { background: var(--blue-dim); }
+  .icon-purple { background: var(--purple-dim); }
+  .product-name { font-size: 20px; font-weight: 500; margin-bottom: 0.3rem; }
+  .product-tagline { font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .product-price {
+    margin-left: auto; font-family: var(--mono);
+    font-size: 13px; color: var(--muted);
+    white-space: nowrap; padding-top: 4px;
   }
 
-  /* Table */
-  .table-wrap {
+  /* Two-col grid for pitch + objections */
+  .pitch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 650px) { .pitch-grid { grid-template-columns: 1fr; } }
+
+  .pitch-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    overflow: hidden;
+    padding: 1.25rem 1.5rem;
+  }
+  .pitch-card-title {
+    font-family: var(--mono); font-size: 10px; color: var(--muted);
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem;
   }
 
-  .table-header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--border);
+  /* Talking points */
+  .point { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .point:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .point-head { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.3rem; }
+  .point-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Objections */
+  .objection { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .objection:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .obj-q {
+    font-size: 12px; font-style: italic; color: var(--muted);
+    background: var(--surface2); border-radius: 6px;
+    padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; line-height: 1.5;
   }
+  .obj-a { font-size: 13px; color: var(--text); line-height: 1.6; }
 
-  .table-title {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  /* Client type tags */
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .tag {
+    font-family: var(--mono); font-size: 10px; padding: 3px 8px;
+    border-radius: 4px; letter-spacing: 0.04em;
   }
+  .tag-green { background: var(--accent-dim); color: var(--accent); }
+  .tag-blue { background: var(--blue-dim); color: var(--blue); }
+  .tag-purple { background: var(--purple-dim); color: var(--purple); }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+  /* Best-fit section */
+  .fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  @media (max-width: 650px) { .fit-grid { grid-template-columns: 1fr; } }
 
-  thead th {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-align: left;
-    padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid var(--border);
-    font-weight: 400;
-  }
+  .fit-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; }
+  .fit-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .fit-title.green { color: var(--accent); }
+  .fit-title.blue { color: var(--blue); }
+  .fit-list { list-style: none; }
+  .fit-list li { font-size: 13px; color: var(--muted); padding: 3px 0; line-height: 1.5; }
+  .fit-list li::before { content: '→ '; color: var(--border2); }
 
-  tbody td {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--text);
-    padding: 0.85rem 1.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  tbody tr:last-child td { border-bottom: none; }
-
-  tbody tr.active { background: rgba(200,245,90,0.05); }
-  tbody tr.active td:first-child { color: var(--accent); }
-
-  .badge {
-    display: inline-block;
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-family: var(--mono);
-    margin-left: 6px;
-    vertical-align: middle;
-  }
-
-  .badge-green { background: var(--accent-dim); color: var(--accent); }
-  .badge-warn { background: var(--warn-dim); color: var(--warn); }
-  .badge-red { background: var(--danger-dim); color: var(--danger); }
-
+  /* Footer */
   .footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
+    margin-top: 3rem; padding-top: 1.5rem;
     border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 0.5rem;
   }
-
-  .footer-text {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-  }
+  .footer-text { font-family: var(--mono); font-size: 11px; color: var(--muted); }
 
   @media (max-width: 600px) {
     .main { padding: 1.5rem 1rem; }
     .header { padding: 1rem; }
+    .nav { padding: 0 1rem; }
+    .nav-tab { padding: 0.75rem 0.9rem; }
     .slider-name { min-width: 100px; font-size: 12px; }
-    thead th, tbody td { padding: 0.75rem 1rem; }
+    thead th, tbody td { padding: 0.7rem 1rem; }
+    .product-hero { flex-direction: column; gap: 0.75rem; }
+    .product-price { margin-left: 0; }
   }
 </style>
 </head>
@@ -342,73 +286,332 @@
 <div class="header">
   <span class="header-org">NTG</span>
   <span class="header-dot">·</span>
-  <span class="header-title">Security Pricing Model</span>
+  <span class="header-title">Security Offerings</span>
+  <span class="header-badge">INTERNAL USE ONLY</span>
 </div>
+
+<nav class="nav">
+  <button class="nav-tab active" onclick="showPage('calculator', this)">PRICING MODEL</button>
+  <button class="nav-tab" onclick="showPage('vuln', this)">VULN SCANNER</button>
+  <button class="nav-tab" onclick="showPage('pentest', this)">VPENTEST</button>
+  <button class="nav-tab" onclick="showPage('netdet', this)">NETWORK DETECTIVE</button>
+</nav>
 
 <div class="main">
 
-  <h1 class="page-title">Shared cost calculator</h1>
-  <p class="page-sub">INTERNAL USE ONLY — NOT FOR DISTRIBUTION</p>
+  <!-- ══════════════ PRICING CALCULATOR ══════════════ -->
+  <div class="page active" id="page-calculator">
+    <h1 class="page-title">Shared cost model</h1>
+    <p class="page-sub">ADJUST SLIDERS TO MODEL CLIENT COUNT AND PRICE</p>
 
-  <div class="cost-row">
-    <div class="cost-card">
-      <div class="cost-label">Vulnerability Scanner</div>
-      <div class="cost-value">$350</div>
-      <div class="cost-note">per month</div>
+    <div class="section-label">Fixed monthly cost — all three tools</div>
+    <div class="cost-row">
+      <div class="cost-card">
+        <div class="cost-label">Vulnerability Scanner</div>
+        <div class="cost-value">$350</div>
+        <div class="cost-note">per month</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-label">vPenTest</div>
+        <div class="cost-value">$495</div>
+        <div class="cost-note">per month</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-label">Network Detective Pro</div>
+        <div class="cost-value">$350</div>
+        <div class="cost-note">per month</div>
+      </div>
+      <div class="cost-card total">
+        <div class="cost-label">Total floor</div>
+        <div class="cost-value">$1,195</div>
+        <div class="cost-note">must cover this</div>
+      </div>
     </div>
-    <div class="cost-card">
-      <div class="cost-label">vPenTest</div>
-      <div class="cost-value">$495</div>
-      <div class="cost-note">per month</div>
+
+    <div class="section-label">Model your pricing</div>
+    <div class="controls">
+      <div class="slider-row">
+        <span class="slider-name">Clients on package</span>
+        <input type="range" min="1" max="30" value="10" step="1" id="clients" oninput="updateCalc()">
+        <span class="slider-val" id="clients-out">10</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-name">Price per client/mo</span>
+        <input type="range" min="25" max="300" value="75" step="5" id="price" oninput="updateCalc()">
+        <span class="slider-val" id="price-out">$75</span>
+      </div>
     </div>
-    <div class="cost-card">
-      <div class="cost-label">Network Detective Pro</div>
-      <div class="cost-value">$350</div>
-      <div class="cost-note">per month</div>
-    </div>
-    <div class="cost-card total">
-      <div class="cost-label">Total floor</div>
-      <div class="cost-value">$1,195</div>
-      <div class="cost-note">must cover this</div>
+
+    <div class="metrics" id="metrics"></div>
+
+    <div class="table-wrap">
+      <div class="table-header">
+        <div class="table-title">Breakeven &amp; margin targets by client count</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Clients</th>
+            <th>Breakeven</th>
+            <th>25% margin</th>
+            <th>40% margin</th>
+            <th>50% margin</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
     </div>
   </div>
 
-  <div class="controls">
-    <div class="controls-title">Adjust model</div>
-    <div class="slider-row">
-      <span class="slider-name">Clients on package</span>
-      <input type="range" min="1" max="30" value="10" step="1" id="clients" oninput="update()">
-      <span class="slider-val" id="clients-out">10</span>
+  <!-- ══════════════ VULNERABILITY SCANNER ══════════════ -->
+  <div class="page" id="page-vuln">
+    <h1 class="page-title">Vulnerability Scanner</h1>
+    <p class="page-sub">SALES GUIDE — TALKING POINTS &amp; OBJECTION HANDLING</p>
+
+    <div class="product-hero">
+      <div class="product-icon icon-green">🔍</div>
+      <div>
+        <div class="product-name">Vulnerability Scanner</div>
+        <div class="product-tagline">Continuous visibility into exposed weaknesses across the client's environment — before attackers find them first.</div>
+      </div>
+      <div class="product-price">$350/mo shared cost</div>
     </div>
-    <div class="slider-row">
-      <span class="slider-name">Price per client/mo</span>
-      <input type="range" min="25" max="300" value="75" step="5" id="price" oninput="update()">
-      <span class="slider-val" id="price-out">$75</span>
+
+    <div class="section-label">Best-fit clients</div>
+    <div class="fit-grid">
+      <div class="fit-card">
+        <div class="fit-title green">Strong fit</div>
+        <ul class="fit-list">
+          <li>Law firms with client data obligations</li>
+          <li>Financial services under SOC 2 or GLBA</li>
+          <li>Healthcare / HIPAA-adjacent</li>
+          <li>Any client post-incident or near-miss</li>
+          <li>Clients with remote workers or BYOD</li>
+        </ul>
+      </div>
+      <div class="fit-card">
+        <div class="fit-title blue">Decent fit</div>
+        <ul class="fit-list">
+          <li>SMBs with 20+ endpoints</li>
+          <li>Clients recently onboarded (unknown baseline)</li>
+          <li>Companies with frequent staff turnover</li>
+          <li>Anyone asking "are we secure?"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">Talking points &amp; objections</div>
+    <div class="pitch-grid">
+      <div class="pitch-card">
+        <div class="pitch-card-title">Talking points</div>
+
+        <div class="point">
+          <div class="point-head">See what attackers see</div>
+          <div class="point-body">A vulnerability scanner finds the same open doors a hacker would probe — misconfigured services, unpatched software, weak credentials — before they're exploited.</div>
+        </div>
+        <div class="point">
+          <div class="point-head">Continuous, not once-a-year</div>
+          <div class="point-body">Your environment changes constantly — new devices, software updates, new staff. A one-time audit goes stale in weeks. This runs continuously and alerts on new exposures.</div>
+        </div>
+        <div class="point">
+          <div class="point-head">Compliance evidence</div>
+          <div class="point-body">Regulators and cyber insurers increasingly want proof of ongoing scanning. This gives you a report you can hand an auditor without scrambling.</div>
+        </div>
+        <div class="point">
+          <div class="point-head">SMB angle</div>
+          <div class="point-body">Most small businesses assume they're too small to be targeted. In reality, SMBs are preferred targets because defenses are weaker. This levels the playing field.</div>
+        </div>
+      </div>
+
+      <div class="pitch-card">
+        <div class="pitch-card-title">Objection handling</div>
+
+        <div class="objection">
+          <div class="obj-q">"We already have antivirus / EDR."</div>
+          <div class="obj-a">EDR catches malware after it's running. A vulnerability scanner finds the unlocked door before anyone walks through it. They solve different problems and work together.</div>
+        </div>
+        <div class="objection">
+          <div class="obj-q">"We've never had an incident."</div>
+          <div class="obj-a">That's exactly when to start — not after one. Most breaches exploit vulnerabilities that existed for months before anyone noticed. This tells you your current exposure, not yesterday's.</div>
+        </div>
+        <div class="objection">
+          <div class="obj-q">"We just had a security audit."</div>
+          <div class="obj-a">Audits are snapshots. The week after your audit, a new CVE drops, someone installs software, or a firewall rule gets changed. Continuous scanning keeps you current.</div>
+        </div>
+        <div class="objection">
+          <div class="obj-q">"What does it actually find?"</div>
+          <div class="obj-a">Unpatched OS and application vulnerabilities, open ports that shouldn't be exposed, misconfigured services, outdated protocols like TLS 1.0, and weak or default credentials.</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="metrics" id="metrics"></div>
+  <!-- ══════════════ vPENTEST ══════════════ -->
+  <div class="page" id="page-pentest">
+    <h1 class="page-title">vPenTest</h1>
+    <p class="page-sub">SALES GUIDE — TALKING POINTS &amp; OBJECTION HANDLING</p>
 
-  <div class="table-wrap">
-    <div class="table-header">
-      <div class="table-title">Breakeven &amp; margin targets by client count</div>
+    <div class="product-hero">
+      <div class="product-icon icon-blue">⚡</div>
+      <div>
+        <div class="product-name">vPenTest</div>
+        <div class="product-tagline">Automated penetration testing that simulates a real attack — proving whether vulnerabilities are actually exploitable, not just present.</div>
+      </div>
+      <div class="product-price">$495/mo shared cost</div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Clients</th>
-          <th>Breakeven</th>
-          <th>25% margin</th>
-          <th>40% margin</th>
-          <th>50% margin</th>
-        </tr>
-      </thead>
-      <tbody id="table-body"></tbody>
-    </table>
+
+    <div class="section-label">Best-fit clients</div>
+    <div class="fit-grid">
+      <div class="fit-card">
+        <div class="fit-title green">Strong fit</div>
+        <ul class="fit-list">
+          <li>Law firms and financial services</li>
+          <li>Clients with cyber insurance requirements</li>
+          <li>Post-breach clients rebuilding trust</li>
+          <li>Clients facing vendor security questionnaires</li>
+          <li>Anyone with compliance audit exposure</li>
+        </ul>
+      </div>
+      <div class="fit-card">
+        <div class="fit-title blue">Decent fit</div>
+        <ul class="fit-list">
+          <li>SMBs with sensitive client data</li>
+          <li>Clients asking "could we actually be breached?"</li>
+          <li>Growing companies adding staff or systems fast</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">Talking points &amp; objections</div>
+    <div class="pitch-grid">
+      <div class="pitch-card">
+        <div class="pitch-card-title">Talking points</div>
+
+        <div class="point">
+          <div class="point-head">Scanning finds vulnerabilities. Pen testing proves they matter.</div>
+          <div class="point-body">A vulnerability scanner is a checklist. A pen test is a hacker trying to actually use those vulnerabilities to get in. You need to know which weaknesses are genuinely dangerous.</div>
+        </div>
+        <div class="point">
+          <div class="point-head">Real-world attack simulation</div>
+          <div class="point-body">vPenTest mimics the techniques actual attackers use — lateral movement, credential abuse, privilege escalation — and tells you exactly how far they could get.</div>
+        </div>
+        <div class="point">
+          <div class="point-head">Actionable report, not a raw list</div>
+          <div class="point-body">You get a prioritized remediation report: here's what's exploitable, here's how bad, here's how to fix it. Not a 200-page CVSS dump you can't act on.</div>
+        </div>
+        <div class="point">
+          <div class="point-head">Cyber insurance &amp; compliance</div>
+          <div class="point-body">Many insurers now require evidence of penetration testing. This gives you that documentation — and often justifies a lower premium.</div>
+        </div>
+      </div>
+
+      <div class="pitch-card">
+        <div class="pitch-card-title">Objection handling</div>
+
+        <div class="objection">
+          <div class="obj-q">"Isn't a pen test just for big companies?"</div>
+          <div class="obj-a">That used to be true when pen tests cost $15,000–$30,000 per engagement. vPenTest makes it accessible at a fraction of that cost, on a recurring basis — so you're not relying on a once-a-year snapshot.</div>
+        </div>
+        <div class="objection">
+          <div class="obj-q">"What's the difference between this and the vulnerability scanner?"</div>
+          <div class="obj-a">The scanner finds unlocked doors. The pen test tries to walk through them, take something, and get back out without being noticed. You need both — discovery and proof of impact.</div>
+        </div>
+        <div class="objection">
+          <div class="obj-q">"Will it disrupt our systems?"</div>
+          <div class="obj-a">vPenTest is designed to be non-destructive. It tests exploitability without causing downtime or data loss. We schedule it during low-traffic windows and you're notified throughout.</div>
+        </div>
+        <div class="objection">
+          <div class="obj-q">"We passed our last audit."</div>
+          <div class="obj-a">Audits check configuration against a standard. Pen tests check whether that configuration actually holds up under attack. Passing an audit and being secure aren't always the same thing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ NETWORK DETECTIVE PRO ══════════════ -->
+  <div class="page" id="page-netdet">
+    <h1 class="page-title">Network Detective Pro</h1>
+    <p class="page-sub">SALES GUIDE — TALKING POINTS &amp; OBJECTION HANDLING</p>
+
+    <div class="product-hero">
+      <div class="product-icon icon-purple">🗺️</div>
+      <div>
+        <div class="product-name">Network Detective Pro</div>
+        <div class="product-tagline">Deep network assessment and risk reporting — surfaces what's actually on the network, what's misconfigured, and what's been missed.</div>
+      </div>
+      <div class="product-price">$350/mo shared cost</div>
+    </div>
+
+    <div class="section-label">Best-fit clients</div>
+    <div class="fit-grid">
+      <div class="fit-card">
+        <div class="fit-title green">Strong fit</div>
+        <ul class="fit-list">
+          <li>New clients during onboarding</li>
+          <li>Clients with no current network documentation</li>
+          <li>Businesses after a merger or acquisition</li>
+          <li>Clients preparing for QBRs</li>
+          <li>Regulated environments needing risk reports</li>
+        </ul>
+      </div>
+      <div class="fit-card">
+        <div class="fit-title blue">Decent fit</div>
+        <ul class="fit-list">
+          <li>SMBs that have grown organically with no IT planning</li>
+          <li>Clients with aging or undocumented infrastructure</li>
+          <li>Anyone asking about network risk or compliance posture</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">Talking points &amp; objections</div>
+    <div class="pitch-grid">
+      <div class="pitch-card">
+        <div class="pitch-card-title">Talking points</div>
+
+        <div class="point">
+          <div class="point-head">You can't secure what you can't see</div>
+          <div class="point-body">Most SMBs have devices, services, and open ports they don't know about. Network Detective Pro builds a complete picture of what's actually on the network — including shadow IT.</div>
+        </div>
+        <div class="point">
+          <div class="point-head">Ready-made risk report</div>
+          <div class="point-body">It generates a professional risk assessment you can hand a client during a QBR — showing them exactly where they stand and what needs attention. Makes you look sharp.</div>
+        </div>
+        <div class="point">
+          <div class="point-head">Perfect for onboarding</div>
+          <div class="point-body">When you take on a new client, you inherit their unknown risks. This gives you a baseline scan immediately — so you know what you're walking into before it becomes your problem.</div>
+        </div>
+        <div class="point">
+          <div class="point-head">Surfaces misconfigurations</div>
+          <div class="point-body">Open shares, outdated OS, misconfigured AD, password policy gaps — things that don't show up in day-to-day support tickets but represent real exposure.</div>
+        </div>
+      </div>
+
+      <div class="pitch-card">
+        <div class="pitch-card-title">Objection handling</div>
+
+        <div class="objection">
+          <div class="obj-q">"We already know what's on our network."</div>
+          <div class="obj-a">Most clients say this — until we run the scan. Shadow IT, personal devices, forgotten servers, and unauthorized software show up constantly. The gap between "what we think is there" and reality is usually significant.</div>
+        </div>
+        <div class="objection">
+          <div class="obj-q">"How is this different from what you already do for us?"</div>
+          <div class="obj-a">Day-to-day support is reactive — we fix what breaks. Network Detective Pro is proactive — it looks for what's quietly wrong before it breaks, or before an attacker finds it first.</div>
+        </div>
+        <div class="objection">
+          <div class="obj-q">"We don't have compliance requirements."</div>
+          <div class="obj-a">You don't need a compliance mandate to have a breach. And increasingly, cyber insurers are asking for network risk documentation even for small businesses. This gives you that.</div>
+        </div>
+        <div class="objection">
+          <div class="obj-q">"What do we do with the report?"</div>
+          <div class="obj-a">We walk through it with you. Every finding is prioritized — critical, high, medium. We build a remediation roadmap together. It becomes the foundation for your security roadmap going forward.</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="footer">
-    <span class="footer-text">NTG Internal · Security Offering Pricing</span>
+    <span class="footer-text">NTG Internal · Security Offerings Guide</span>
     <span class="footer-text" id="footer-date"></span>
   </div>
 
@@ -416,12 +619,9 @@
 
 <script>
 const FLOOR = 1195;
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
 
-function fmt(n) {
-  return '$' + Math.round(n).toLocaleString();
-}
-
-function update() {
+function updateCalc() {
   const clients = parseInt(document.getElementById('clients').value);
   const price = parseInt(document.getElementById('price').value);
   document.getElementById('clients-out').textContent = clients;
@@ -432,60 +632,38 @@ function update() {
   const margin = revenue > 0 ? (profit / revenue) * 100 : 0;
   const breakeven = FLOOR / clients;
 
-  const profitClass = profit >= 0 ? 'positive' : 'negative';
-  const marginClass = margin >= 25 ? 'positive' : margin >= 0 ? 'warn' : 'negative';
+  const pc = profit >= 0 ? 'positive' : 'negative';
+  const mc = margin >= 25 ? 'positive' : margin >= 0 ? 'warn' : 'negative';
 
   document.getElementById('metrics').innerHTML = `
-    <div class="metric">
-      <div class="metric-label">Monthly revenue</div>
-      <div class="metric-value">${fmt(revenue)}</div>
-      <div class="metric-sub">${clients} clients × $${price}</div>
-    </div>
-    <div class="metric ${profitClass}">
-      <div class="metric-label">Monthly profit</div>
-      <div class="metric-value">${profit >= 0 ? '+' : ''}${fmt(profit)}</div>
-      <div class="metric-sub">after $1,195 floor</div>
-    </div>
-    <div class="metric ${marginClass}">
-      <div class="metric-label">Gross margin</div>
-      <div class="metric-value">${Math.round(margin)}%</div>
-      <div class="metric-sub">25%+ is healthy</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Breakeven price</div>
-      <div class="metric-value">${fmt(breakeven)}</div>
-      <div class="metric-sub">per client at ${clients} clients</div>
-    </div>
+    <div class="metric"><div class="metric-label">Monthly revenue</div><div class="metric-value">${fmt(revenue)}</div><div class="metric-sub">${clients} clients × $${price}</div></div>
+    <div class="metric ${pc}"><div class="metric-label">Monthly profit</div><div class="metric-value">${profit >= 0 ? '+' : ''}${fmt(profit)}</div><div class="metric-sub">after $1,195 floor</div></div>
+    <div class="metric ${mc}"><div class="metric-label">Gross margin</div><div class="metric-value">${Math.round(margin)}%</div><div class="metric-sub">25%+ is healthy</div></div>
+    <div class="metric"><div class="metric-label">Breakeven price</div><div class="metric-value">${fmt(breakeven)}</div><div class="metric-sub">per client at ${clients} clients</div></div>
   `;
 
   const rows = [2, 5, 8, 10, 15, 20];
   document.getElementById('table-body').innerHTML = rows.map(n => {
     const be = FLOOR / n;
-    const m25 = be / 0.75;
-    const m40 = be / 0.60;
-    const m50 = be / 0.50;
-    const active = n === clients;
-
-    const badge = (val, price) => {
-      const m = ((val - FLOOR / n) / val) * 100;
-      if (m >= 40) return '<span class="badge badge-green">strong</span>';
-      if (m >= 25) return '<span class="badge badge-warn">ok</span>';
-      return '';
-    };
-
-    return `<tr class="${active ? 'active' : ''}">
-      <td>${n}${active ? ' ←' : ''}</td>
+    return `<tr class="${n === clients ? 'active-row' : ''}">
+      <td>${n}${n === clients ? ' ←' : ''}</td>
       <td>${fmt(be)}</td>
-      <td>${fmt(m25)}</td>
-      <td>${fmt(m40)}</td>
-      <td>${fmt(m50)}</td>
+      <td>${fmt(be / 0.75)}</td>
+      <td>${fmt(be / 0.60)}</td>
+      <td>${fmt(be / 0.50)}</td>
     </tr>`;
   }).join('');
 }
 
-document.getElementById('footer-date').textContent = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+}
 
-update();
+document.getElementById('footer-date').textContent = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+updateCalc();
 </script>
 </body>
 </html>
